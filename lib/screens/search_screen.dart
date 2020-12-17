@@ -9,14 +9,10 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(20.0),
-          child: TextField(
-              style: kTextFieldStyle, decoration: kTextFieldDecoration),
-        ),
-      ),
+    return Container(
+      margin: EdgeInsets.all(20.0),
+      child:
+          TextField(style: kTextFieldStyle, decoration: kTextFieldDecoration),
     );
   }
 }

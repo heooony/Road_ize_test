@@ -12,7 +12,13 @@ class MyBottomNavigation extends StatefulWidget {
 
 class _MyBottomNavigationState extends State<MyBottomNavigation> {
   int _currentIndex = 0;
+  final pageController = PageController();
+
   void _onTap(int index) {
+    pageController.jumpToPage(index);
+  }
+
+  void onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -25,28 +31,38 @@ class _MyBottomNavigationState extends State<MyBottomNavigation> {
     FeedScreen(),
     UserScreen()
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.greenAccent.shade700,
-          currentIndex: _currentIndex,
-          onTap: _onTap,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-            BottomNavigationBarItem(icon: Icon(Icons.wifi), label: 'Feed'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.supervised_user_circle), label: 'User'),
-          ],
+        body: PageView(
+          controller: pageController,
+          onPageChanged: onPageChanged,
+          children: _children,
+          physics: NeverScrollableScrollPhysics(), // No sliding
         ),
+        bottomNavigationBar: buildBottomNavigationBar(),
       ),
+    );
+  }
+
+  BottomNavigationBar buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      selectedItemColor: Colors.green,
+      unselectedItemColor: Colors.greenAccent.shade700,
+      currentIndex: _currentIndex,
+      onTap: _onTap,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+        BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+        BottomNavigationBarItem(icon: Icon(Icons.wifi), label: 'Feed'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.supervised_user_circle), label: 'User'),
+      ],
     );
   }
 }
