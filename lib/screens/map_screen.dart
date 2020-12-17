@@ -1,42 +1,60 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:road_ize/utilities/constants.dart';
+import 'package:road_ize/services/location.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends StatelessWidget {
   @override
-  _MapScreenState createState() => _MapScreenState();
+  Widget build(BuildContext context) {
+    return MyMapScreen();
+  }
 }
 
-class _MapScreenState extends State<MapScreen> {
-  final Map<String, Marker> _markers = {};
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final googleOffices = await locations.getGoogleOffices();
-    setState(() {
-      _markers.clear();
-      for (final office in googleOffices.offices) {
-        final marker = Marker(
-          markerId: MarkerId(office.name),
-          position: LatLng(office.lat, office.lng),
-          infoWindow: InfoWindow(
-            title: office.name,
-            snippet: office.address,
-          ),
-        );
-        _markers[office.name] = marker;
-      }
-    });
+class MyMapScreen extends StatefulWidget {
+  @override
+  State<MyMapScreen> createState() => MyMapScreenState();
+}
+
+class MyMapScreenState extends State<MyMapScreen> {
+  @override
+  void initState() {
+    super.initState();
   }
+
+  void getLocation() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+  }
+
+  Completer<GoogleMapController> _controller = Completer();
+
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.44126894283153, 127.12646818451141),
+    zoom: 14.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget('Google maps'),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: const LatLng(0, 0),
-          zoom: 2,
-        ),
-        markers: _markers.values.toSet(),
+      body: Stack(
+        children: [
+          GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              }),
+          Container(
+              padding: EdgeInsets.all(20.0),
+              child: TextField(
+                  style: kTextFieldStyle, decoration: kTextFieldDecoration)),
+          FlatButton(
+              onPressed: () {
+                getLocation();
+              },
+              child: Text('MEE!'))
+        ],
       ),
     );
   }
