@@ -72,7 +72,7 @@ class _UserScreenState extends State<UserScreen> {
               ],
             ),
           ),
-          SizedBox(width: 150, height: 150, child: MapStream())
+          MapStream()
         ],
       ),
     );
@@ -82,6 +82,7 @@ class _UserScreenState extends State<UserScreen> {
 class MapStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('map_information').snapshots(),
         builder: (context, snapshot) {
@@ -104,9 +105,12 @@ class MapStream extends StatelessWidget {
             mapCards.add(mapCard);
           }
           return Container(
-              child: Row(
-            children: mapCards,
-          ));
+            height: width / 3,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: mapCards,
+            ),
+          );
         });
   }
 }
@@ -118,6 +122,23 @@ class MapCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title);
+    final width = MediaQuery.of(context).size.width;
+
+    return InkWell(
+      onTap: () {
+        //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Tap')));
+      },
+      child: Container(
+        width: width / 3,
+        height: width / 3,
+        decoration: BoxDecoration(),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ),
+      ),
+    );
   }
 }
