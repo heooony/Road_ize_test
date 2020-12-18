@@ -24,7 +24,7 @@ class MyMapScreenState extends State<MyMapScreen>
 
   GoogleMapController mapController;
   Location location = Location();
-  LatLng latlng;
+  LatLng latlng = LatLng(0.0, 0.0);
 
   @override
   void initState() {
@@ -36,10 +36,10 @@ class MyMapScreenState extends State<MyMapScreen>
     mapController = controller;
   }
 
-  void getLocation() async {
+  Future<LatLng> getLocation() async {
     await location.getCurrentLocation();
-    print(location.latitude);
     latlng = LatLng(location.latitude, location.longitude);
+    return latlng;
   }
 
   Completer<GoogleMapController> _controller = Completer();
@@ -49,13 +49,22 @@ class MyMapScreenState extends State<MyMapScreen>
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(
-              target: latlng,
-              zoom: 14.4746,
-            ),
+          FutureBuilder(
+            future: getLocation(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData == false) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  mapType: MapType.normal,
+                  initialCameraPosition: CameraPosition(
+                    target: latlng,
+                    zoom: 14.4746,
+                  ),
+                );
+              }
+            },
           ),
           Container(
               padding: EdgeInsets.all(20.0),
