@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class UserScreen extends StatefulWidget {
   @override
@@ -69,9 +72,52 @@ class _UserScreenState extends State<UserScreen> {
               ],
             ),
           ),
-          Container()
+          SizedBox(width: 150, height: 150, child: MapStream())
         ],
       ),
     );
+  }
+}
+
+class MapStream extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: _firestore.collection('map_information').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.lightBlueAccent,
+              ),
+            );
+          }
+          final mapInformation = snapshot.data.docs;
+          List<MapCard> mapCards = [];
+          for (var information in mapInformation) {
+            final title = information.data()['title'];
+            final intro = information.data()['intro'];
+            final mapCard = MapCard(
+              title: title,
+              intro: intro,
+            );
+            mapCards.add(mapCard);
+          }
+          return Container(
+              child: Row(
+            children: mapCards,
+          ));
+        });
+  }
+}
+
+class MapCard extends StatelessWidget {
+  MapCard({this.title, this.intro});
+  final title;
+  final intro;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(title);
   }
 }

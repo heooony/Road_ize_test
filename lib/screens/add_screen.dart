@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:road_ize/utilities/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -8,6 +8,13 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final messageTextController = TextEditingController();
+  final messageTextController2 = TextEditingController();
+  final _firestore = FirebaseFirestore.instance;
+  User loggedInUser;
+  String title;
+  String intro;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +31,11 @@ class _AddScreenState extends State<AddScreen> {
                 ),
               ),
               Flexible(
-                  child: TextFormField(
+                  child: TextField(
+                controller: messageTextController,
+                onChanged: (value) {
+                  title = value;
+                },
                 style: TextStyle(fontSize: 30.0, color: Colors.black),
                 decoration: InputDecoration(
                     hintText: '테마 이름을 적어주세요', border: OutlineInputBorder()),
@@ -43,12 +54,27 @@ class _AddScreenState extends State<AddScreen> {
               ),
               Expanded(
                   child: TextField(
+                controller: messageTextController2,
+                onChanged: (value) {
+                  intro = value;
+                },
                 maxLines: 3,
                 style: TextStyle(fontSize: 30.0),
                 decoration: InputDecoration(
                     hintText: '테마 설명을 적어주세요', border: OutlineInputBorder()),
               )),
             ],
+          ),
+          FlatButton(
+            onPressed: () async {
+              await _firestore
+                  .collection('map_information')
+                  .add({'title': title, 'intro': intro});
+              messageTextController.clear();
+              messageTextController2.clear();
+            },
+            child: Text('제출'),
+            color: Colors.greenAccent,
           )
         ],
       ),
