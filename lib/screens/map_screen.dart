@@ -78,7 +78,8 @@ class MyMapScreenState extends State<MyMapScreen>
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 RawMaterialButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await getLocation();
                     mapController.moveCamera(
                       CameraUpdate.newLatLng(
                         latlng,

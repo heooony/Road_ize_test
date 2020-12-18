@@ -24,13 +24,15 @@ class _AddScreenState extends State<AddScreen> {
                 ),
               ),
               Flexible(
-                  child: TextField(
+                  child: TextFormField(
                 style: TextStyle(fontSize: 30.0, color: Colors.black),
                 decoration: InputDecoration(
-                    hintText: '테마 이름을 적어주세요',
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                    hintText: '테마 이름을 적어주세요', border: OutlineInputBorder()),
               )),
             ],
+          ),
+          SizedBox(
+            height: 10.0,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -44,8 +46,7 @@ class _AddScreenState extends State<AddScreen> {
                 maxLines: 3,
                 style: TextStyle(fontSize: 30.0),
                 decoration: InputDecoration(
-                    hintText: '테마 설명을 적어주세요',
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                    hintText: '테마 설명을 적어주세요', border: OutlineInputBorder()),
               )),
             ],
           )
