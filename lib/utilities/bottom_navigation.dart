@@ -5,12 +5,12 @@ import 'package:road_ize/screens/search_screen.dart';
 import 'package:road_ize/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 
-class MyBottomNavigation extends StatefulWidget {
+class BottomNavigation extends StatefulWidget {
   @override
-  _MyBottomNavigationState createState() => _MyBottomNavigationState();
+  _BottomNavigationState createState() => _BottomNavigationState();
 }
 
-class _MyBottomNavigationState extends State<MyBottomNavigation> {
+class _BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
   final pageController = PageController();
 
