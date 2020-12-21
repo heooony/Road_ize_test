@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
-import 'package:road_ize/utilities/bottom_navigation.dart';
 import 'introduce_screen.dart';
 
 class LoginScreen extends StatefulWidget {

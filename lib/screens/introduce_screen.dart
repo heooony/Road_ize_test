@@ -17,7 +17,6 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
   User _user;
   String name;
   String introduce;
-  String image;
 
   @override
   void initState() {
@@ -38,8 +37,7 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
       _image = File(pickedFile.path);
     });
 
-    Reference ref =
-        _firebaseStorage.ref().child("image1" + DateTime.now().toString());
+    Reference ref = _firebaseStorage.ref().child('profile/${_user.uid}');
     UploadTask uploadTask = ref.putFile(_image);
     uploadTask.then((res) {
       String url = res.ref.getDownloadURL().toString();
@@ -90,11 +88,18 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
                     RawMaterialButton(
                       onPressed: _uploadImageToStorage,
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(_profileImageURL),
-                        child: Icon(
-                          Icons.add_a_photo,
-                          color: Color(0xFF79AA6C),
-                        ),
+                        backgroundColor: Color(0x4479D26C),
+                        backgroundImage:
+                            (_image == null) ? null : FileImage(_image),
+                        child: (_image == null)
+                            ? Icon(
+                                Icons.add_a_photo,
+                                color: Color(0xFF79AA6C),
+                              )
+                            : Icon(
+                                Icons.cached_sharp,
+                                color: Color(0xFF79AA6C),
+                              ),
                         radius: 60.0,
                       ),
                     ),
