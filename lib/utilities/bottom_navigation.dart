@@ -11,9 +11,11 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+  //variable
   int _currentIndex = 0;
   final pageController = PageController();
 
+  //method
   void _onTap(int index) {
     pageController.jumpToPage(index);
   }
@@ -32,6 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     UserScreen()
   ];
 
+  //main
   @override
   Widget build(BuildContext context) {
     return SafeArea(

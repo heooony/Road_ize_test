@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:road_ize/utilities/bottom_navigation.dart';
+import 'introduce_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // onRecoverPassword: _recoverPassword,
         onSubmitAnimationCompleted: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => BottomNavigation(),
+            builder: (context) => IntroduceScreen(),
           ));
         });
   }
