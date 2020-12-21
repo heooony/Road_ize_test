@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:road_ize/utilities/bottom_navigation.dart';
 import 'dart:io';
+
+import 'package:road_ize/screens/map_screen.dart';
 
 class IntroduceScreen extends StatefulWidget {
   @override
@@ -12,11 +15,14 @@ class IntroduceScreen extends StatefulWidget {
 class _IntroduceScreenState extends State<IntroduceScreen> {
   final _auth = FirebaseAuth.instance;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   String _profileImageURL = "";
   File _image;
   User _user;
   String name;
   String introduce;
+  final nameController = TextEditingController();
+  final introController = TextEditingController();
 
   @override
   void initState() {
@@ -26,6 +32,26 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
 
   void _prepareService() {
     _user = _auth.currentUser;
+  }
+
+  void isEmpty() {
+    if (nameController.text == '' || introController.text == '') {
+      final snackBar = SnackBar(
+          content: Text(
+            '모든 항목을 작성했는지 확인하십시오',
+            style: TextStyle(fontSize: 15.0),
+          ),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ));
+      scaffoldKey.currentState.showSnackBar(snackBar);
+    } else {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BottomNavigation()));
+    }
   }
 
   void _uploadImageToStorage() async {
@@ -53,6 +79,7 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
 
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
         backgroundColor: Color(0xFF79D26C),
         body: Center(
           child: Column(
@@ -68,7 +95,6 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
               Container(
                 padding: EdgeInsets.all(20.0),
                 width: width / 5 * 4,
-                height: height / 5 * 2,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -107,28 +133,26 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
                       height: 20.0,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           '이름 ',
                           style: TextStyle(fontSize: 30.0),
                         ),
-                        SizedBox(
-                          height: 30.0,
-                          width: 100.0,
-                          child: TextField(
-                            style: TextStyle(fontSize: 30.0),
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 3.0),
-                                filled: true,
-                                fillColor: Color(0x4479D26C),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0)))),
-                          ),
-                        ),
+                        Expanded(
+                            child: TextField(
+                          controller: nameController,
+                          style: TextStyle(fontSize: 30.0),
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 3.0),
+                              filled: true,
+                              fillColor: Color(0x4479D26C),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)))),
+                        )),
                       ],
                     ),
                     SizedBox(
@@ -144,6 +168,7 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
                         ),
                         Expanded(
                           child: TextField(
+                            controller: introController,
                             style: TextStyle(fontSize: 30.0),
                             maxLines: 3,
                             decoration: InputDecoration(
@@ -159,6 +184,14 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
                         ),
                       ],
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: FlatButton(
+                        onPressed: isEmpty,
+                        child: Text('확인'),
+                        color: Color(0x4479D26C),
+                      ),
+                    )
                   ],
                 ),
               ),
