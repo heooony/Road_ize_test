@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:road_ize/utilities/firebase_information.dart';
 import 'introduce_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,22 +10,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   Duration get loginTime => Duration(milliseconds: 2250);
 
+  // ignore: missing_return
   Future<String> _authUser(LoginData data) async {
     try {
-      final user = await _auth.signInWithEmailAndPassword(
+      await FirebaseInformation.auth.signInWithEmailAndPassword(
           email: data.name, password: data.password);
     } catch (e) {
       return 'User not exists';
     }
   }
 
+  // ignore: missing_return
   Future<String> _authCreateUser(LoginData data) async {
     try {
-      final user = await _auth.createUserWithEmailAndPassword(
+      await FirebaseInformation.auth.createUserWithEmailAndPassword(
           email: data.name, password: data.password);
       _authUser(data);
     } catch (e) {

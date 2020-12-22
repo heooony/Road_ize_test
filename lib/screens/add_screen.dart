@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:road_ize/services/user_stream.dart';
+import 'package:road_ize/utilities/firebase_information.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -8,10 +8,8 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final messageTextController = TextEditingController();
-  final messageTextController2 = TextEditingController();
-  final _firestore = FirebaseFirestore.instance;
-  User loggedInUser;
+  final titleController = TextEditingController();
+  final introController = TextEditingController();
   String title;
   String intro;
 
@@ -32,7 +30,7 @@ class _AddScreenState extends State<AddScreen> {
               ),
               Flexible(
                   child: TextField(
-                controller: messageTextController,
+                controller: titleController,
                 onChanged: (value) {
                   title = value;
                 },
@@ -54,7 +52,7 @@ class _AddScreenState extends State<AddScreen> {
               ),
               Expanded(
                   child: TextField(
-                controller: messageTextController2,
+                controller: introController,
                 onChanged: (value) {
                   intro = value;
                 },
@@ -67,11 +65,12 @@ class _AddScreenState extends State<AddScreen> {
           ),
           FlatButton(
             onPressed: () async {
-              await _firestore
+              UserStream();
+              await FirebaseInformation.firestore
                   .collection('map_information')
                   .add({'title': title, 'intro': intro});
-              messageTextController.clear();
-              messageTextController2.clear();
+              titleController.clear();
+              introController.clear();
             },
             child: Text('제출'),
             color: Colors.greenAccent,

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:road_ize/utilities/bottom_navigation.dart';
-import 'dart:io';
-
-import 'package:road_ize/screens/map_screen.dart';
+import 'package:road_ize/utilities/constants.dart';
+import 'package:road_ize/utilities/firebase_information.dart';
+import 'package:road_ize/utilities/snackBar.dart';
 
 class IntroduceScreen extends StatefulWidget {
   @override
@@ -13,69 +10,25 @@ class IntroduceScreen extends StatefulWidget {
 }
 
 class _IntroduceScreenState extends State<IntroduceScreen> {
-  final _auth = FirebaseAuth.instance;
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String _profileImageURL = "";
-  File _image;
-  User _user;
-  String name;
-  String introduce;
   final nameController = TextEditingController();
   final introController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _prepareService();
-  }
-
-  void _prepareService() {
-    _user = _auth.currentUser;
-  }
-
   void isEmpty() {
     if (nameController.text == '' || introController.text == '') {
-      final snackBar = SnackBar(
-          content: Text(
-            '모든 항목을 작성했는지 확인하십시오',
-            style: TextStyle(fontSize: 15.0),
-          ),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              // Some code to undo the change.
-            },
-          ));
-      scaffoldKey.currentState.showSnackBar(snackBar);
+      MySnackBar(scaffoldKey: scaffoldKey, text: '모든 항목을 입력해주십시오.')
+          .snackBarUp();
     } else {
+      FirebaseInformation.storeSetData(
+          'user_information', nameController.text, introController.text);
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => BottomNavigation()));
     }
   }
 
-  void _uploadImageToStorage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-
-    if (pickedFile == null) return;
-    setState(() {
-      _image = File(pickedFile.path);
-    });
-
-    Reference ref = _firebaseStorage.ref().child('profile/${_user.uid}');
-    UploadTask uploadTask = ref.putFile(_image);
-    uploadTask.then((res) {
-      String url = res.ref.getDownloadURL().toString();
-      _profileImageURL = url;
-      return url;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
@@ -94,7 +47,7 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
               ),
               Container(
                 padding: EdgeInsets.all(20.0),
-                width: width / 5 * 4,
+                width: screenWidth / 5 * 4,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -112,12 +65,13 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RawMaterialButton(
-                      onPressed: _uploadImageToStorage,
+                      onPressed: FirebaseInformation.uploadFireStorage,
                       child: CircleAvatar(
                         backgroundColor: Color(0x4479D26C),
-                        backgroundImage:
-                            (_image == null) ? null : FileImage(_image),
-                        child: (_image == null)
+                        backgroundImage: (FirebaseInformation.image == null)
+                            ? null
+                            : FileImage(FirebaseInformation.image),
+                        child: (FirebaseInformation.image == null)
                             ? Icon(
                                 Icons.add_a_photo,
                                 color: Color(0xFF79AA6C),
@@ -202,12 +156,3 @@ class _IntroduceScreenState extends State<IntroduceScreen> {
     );
   }
 }
-
-// StreamBuilder<QuerySnapshot>(
-// stream: _firestore.collection('user_information').snapshots(),
-// builder: (context, snapshot) {
-// _firestore
-//     .collection('map_information')
-//     .add({'title': title, 'intro': intro});
-// return;
-// }

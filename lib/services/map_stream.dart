@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-final _firestore = FirebaseFirestore.instance;
+import 'package:road_ize/utilities/firebase_information.dart';
 
 class MapStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection('map_information').snapshots(),
+        stream: FirebaseInformation.firestore
+            .collection('map_information')
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

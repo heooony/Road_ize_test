@@ -9,6 +9,7 @@ void main() async {
   runApp(Main());
 }
 
+// ignore: must_be_immutable
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
