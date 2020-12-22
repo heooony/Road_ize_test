@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:road_ize/services/map_stream.dart';
 import 'package:road_ize/utilities/firebase_information.dart';
+import 'package:road_ize/screens/login_screen.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -17,8 +18,8 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Future<void> getData() async {
-    name = await FirebaseInformation.storeGetData('user_information', 'name');
-    intro = await FirebaseInformation.storeGetData('user_information', 'intro');
+    name = await FirebaseInformation.getStoreData('user_information', 'name');
+    intro = await FirebaseInformation.getStoreData('user_information', 'intro');
     return 'finish';
   }
 
@@ -34,6 +35,16 @@ class _UserScreenState extends State<UserScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  FlatButton(
+                      onPressed: () {
+                        FirebaseInformation.signOut();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => LoginScreen()));
+                      },
+                      child: Text(
+                        '로그아웃',
+                        style: TextStyle(fontSize: 30.03),
+                      )),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Row(

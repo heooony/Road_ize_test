@@ -6,6 +6,7 @@ class MapStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseInformation.firestore
             .collection('map_information')

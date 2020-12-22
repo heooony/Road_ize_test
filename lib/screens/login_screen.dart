@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:road_ize/utilities/firebase_information.dart';
 import 'introduce_screen.dart';
@@ -17,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseInformation.auth.signInWithEmailAndPassword(
           email: data.name, password: data.password);
+      FirebaseInformation.user = FirebaseInformation.auth.currentUser;
     } catch (e) {
       return 'User not exists';
     }
