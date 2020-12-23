@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:road_ize/screens/introduce_screen.dart';
 import 'package:road_ize/screens/login_screen.dart';
-import 'package:road_ize/utilities/bottom_navigation.dart';
 import 'package:road_ize/utilities/firebase_information.dart';
 
 void main() async {
@@ -20,6 +19,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          // fontFamily: 'nixgone',
+          ),
       home: StreamBuilder(
         stream: FirebaseInformation.auth.authStateChanges(),
         builder: (context, snapshot) {

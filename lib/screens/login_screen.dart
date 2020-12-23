@@ -11,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   Duration get loginTime => Duration(milliseconds: 2250);
 
-  // ignore: missing_return
   Future<String> _authUser(LoginData data) async {
     try {
       await FirebaseInformation.auth.signInWithEmailAndPassword(
@@ -22,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // ignore: missing_return
   Future<String> _authCreateUser(LoginData data) async {
     try {
       await FirebaseInformation.auth.createUserWithEmailAndPassword(
@@ -33,24 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<String> _recoverPassword(String name) {
-  //   print('Name: $name');
-  //   return Future.delayed(loginTime).then((_) {
-  //     if (!users.containsKey(name)) {
-  //       return 'Username not exists';
-  //     }
-  //     return null;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
         title: 'ROAD_IZE',
-        logo: 'Thanks',
+        logo: 'asd',
         onLogin: _authUser,
         onSignup: _authCreateUser,
-        // onRecoverPassword: _recoverPassword,
         onSubmitAnimationCompleted: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => IntroduceScreen(),
