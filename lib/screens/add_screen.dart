@@ -67,8 +67,11 @@ class _AddScreenState extends State<AddScreen> {
             onPressed: () async {
               UserStream();
               await FirebaseInformation.firestore
+                  .collection('user_information')
+                  .doc(FirebaseInformation.user.uid)
                   .collection('map_information')
-                  .add({'title': title, 'intro': intro});
+                  .doc()
+                  .set({'title': title, 'intro': intro});
               titleController.clear();
               introController.clear();
             },

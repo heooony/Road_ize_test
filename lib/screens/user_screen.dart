@@ -33,6 +33,7 @@ class _UserScreenState extends State<UserScreen> {
           } else {
             return Container(
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FlatButton(
@@ -100,6 +101,9 @@ class _UserScreenState extends State<UserScreen> {
                         Text(intro, style: TextStyle(fontSize: 20.0))
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
                   ),
                   MapStream()
                 ],

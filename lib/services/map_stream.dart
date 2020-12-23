@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:road_ize/screens/thema_screen.dart';
 import 'package:road_ize/utilities/firebase_information.dart';
 
 class MapStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseInformation.firestore
+            .collection('user_information')
+            .doc(FirebaseInformation.user.uid)
             .collection('map_information')
             .snapshots(),
         builder: (context, snapshot) {
@@ -31,10 +35,20 @@ class MapStream extends StatelessWidget {
             mapCards.add(mapCard);
           }
           return Container(
-            height: width / 3,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: mapCards,
+            child: GridView.builder(
+              itemCount: mapCards.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: mapCards[index],
+                );
+              },
             ),
           );
         });
@@ -52,7 +66,8 @@ class MapCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Tap')));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ThemaScreen()));
       },
       child: Container(
         width: width / 3,

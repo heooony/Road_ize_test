@@ -31,6 +31,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: nixgone
+    - family: nixgone_l
       fonts:
-        - asset: fonts/nixgone_font.otf
+        - asset: fonts/nixgone_l.otf
+    - family: nixgone_m
+      fonts:
+        - asset: fonts/nixgone_m.otf

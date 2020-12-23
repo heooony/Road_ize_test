@@ -20,8 +20,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          // fontFamily: 'nixgone',
-          ),
+        fontFamily: 'nixgone_m',
+      ),
       home: StreamBuilder(
         stream: FirebaseInformation.auth.authStateChanges(),
         builder: (context, snapshot) {
