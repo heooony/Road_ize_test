@@ -45,7 +45,7 @@ class MyCard extends StatelessWidget {
               children: [
                 Text('INTRODUCE : '),
                 Container(
-                  width: 190.0,
+                  width: 150.0,
                   child: TextField(
                     controller: introController,
                     style: TextStyle(fontSize: 20.0),

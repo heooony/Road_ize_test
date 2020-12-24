@@ -76,6 +76,7 @@ class MapCard extends StatelessWidget {
         child: Center(
           child: Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20.0),
           ),
         ),
