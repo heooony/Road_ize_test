@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:road_ize/main.dart';
 import 'dart:io';
-import 'package:road_ize/screens/login_screen.dart';
 
 class FirebaseInformation {
   static final firestore = FirebaseFirestore.instance;
@@ -13,6 +10,7 @@ class FirebaseInformation {
   static final auth = FirebaseAuth.instance;
   static User user = auth.currentUser;
   static File image;
+  static String mapTitle;
 
   static void setStoreData(String collection, String data, String data2) {
     firestore
@@ -55,5 +53,27 @@ class FirebaseInformation {
       String url = res.ref.getDownloadURL().toString();
       return url;
     });
+  }
+
+  static void uploadThema(String title, String intro) async {
+    await FirebaseInformation.firestore
+        .collection('user_information')
+        .doc(FirebaseInformation.user.uid)
+        .collection('map_information')
+        .doc(FirebaseInformation.mapTitle)
+        .collection('branch_information')
+        .doc(title)
+        .set({'title': title, 'intro': intro});
+  }
+
+  static void deleteThema(title) async {
+    await FirebaseInformation.firestore
+        .collection('user_information')
+        .doc(FirebaseInformation.user.uid)
+        .collection('map_information')
+        .doc(FirebaseInformation.mapTitle)
+        .collection('branch_information')
+        .doc(title)
+        .delete();
   }
 }

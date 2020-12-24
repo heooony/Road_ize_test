@@ -66,8 +66,8 @@ class MapCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ThemaScreen()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ThemaScreen(title: title, intro: intro)));
       },
       child: Container(
         width: width / 3,
