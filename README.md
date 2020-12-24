@@ -5,10 +5,12 @@ ROAD_IZE는 사람들에게 테마지도 제작과 관리를 제공하며, 자�
 의미 있는 길이 될 수 있도록 도와줍니다.
 
 ## Screen shot
+<div>
 <img src="https://user-images.githubusercontent.com/68142821/103093295-3de06e80-463d-11eb-99d0-59eb8dd5c217.png" width="200">
 <img src="https://user-images.githubusercontent.com/68142821/103093315-4e90e480-463d-11eb-8ac8-4069d229b876.png" width="200">
 <img src="https://user-images.githubusercontent.com/68142821/103093331-58b2e300-463d-11eb-9d00-02abefb5c4eb.png" width="200">
 <img src="https://user-images.githubusercontent.com/68142821/103093349-6700ff00-463d-11eb-959e-5088a858353e.png" width="200">
+</div>
 
 ## 사용 목표
 
