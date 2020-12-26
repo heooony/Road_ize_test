@@ -100,15 +100,17 @@ class BranchList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.where_to_vote_sharp),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: GestureDetector(
-          onTap: () {
-            FirebaseInformation.deleteThema(title);
-          },
-          child: Icon(Icons.restore_from_trash)),
+    return RawMaterialButton(
+      child: ListTile(
+        leading: Icon(Icons.where_to_vote_sharp),
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: GestureDetector(
+            onTap: () {
+              FirebaseInformation.deleteThema(title);
+            },
+            child: Icon(Icons.restore_from_trash)),
+      ),
     );
   }
 }
