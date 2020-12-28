@@ -17,9 +17,17 @@ class _MyGoogleMapState extends State<MyGoogleMap>
   bool popCard = false;
   Location location = Location();
   LatLng latlng = LatLng(0.0, 0.0);
+  LatLngBounds _visibleRegion = LatLngBounds(
+    southwest: const LatLng(0, 0),
+    northeast: const LatLng(0, 0),
+  );
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) async {
+    final LatLngBounds visibleRegion = await controller.getVisibleRegion();
     mapController = controller;
+    setState(() {
+      _visibleRegion = visibleRegion;
+    });
   }
 
   Future<LatLng> getLocation() async {
@@ -69,7 +77,17 @@ class _MyGoogleMapState extends State<MyGoogleMap>
                     size: 30.0,
                   )
                 : Icon(Icons.add, size: 30.0)),
-        popCard ? MyCard() : Container()
+        popCard ? MyCard() : Container(),
+        Text('${_visibleRegion.northeast}'),
+        GestureDetector(
+          onTap: () async {
+            final LatLngBounds visibleRegion =
+                await mapController.getVisibleRegion();
+            setState(() {
+              _visibleRegion = visibleRegion;
+            });
+          },
+        )
       ],
     );
   }
