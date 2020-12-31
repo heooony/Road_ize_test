@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:road_ize/screens/login_screen.dart';
+
+const mainColor1 = Color(0xAA9DC8C8);
+const mainColor2 = Color(0xAA58C9B9);
+const mainColor3 = Color(0xAA519D9E);
+const mainColor4 = Color(0xAAD1B6E1);
+const subColor1 = Color(0xAAF0E5D3);
+const subColor2 = Color(0xAAABD0CE);
+const subColor3 = Color(0xAA7C7877);
+const subColor4 = Color(0xAAD9D4CF);
 
 const kTextFieldStyle = TextStyle(fontSize: 20);
 const kTextFieldDecoration = InputDecoration(

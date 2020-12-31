@@ -3,6 +3,7 @@ import 'package:road_ize/screens/add_screen.dart';
 import 'package:road_ize/screens/feed_screen.dart';
 import 'package:road_ize/screens/search_screen.dart';
 import 'package:road_ize/screens/user_screen.dart';
+import 'package:road_ize/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -54,8 +55,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
-      selectedItemColor: Colors.green,
-      unselectedItemColor: Colors.greenAccent.shade700,
+      selectedItemColor: mainColor4,
+      unselectedItemColor: mainColor3,
       currentIndex: _currentIndex,
       onTap: _onTap,
       items: const <BottomNavigationBarItem>[
