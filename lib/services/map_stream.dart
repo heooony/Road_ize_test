@@ -34,7 +34,7 @@ class MapStream extends StatelessWidget {
             );
             mapCards.add(mapCard);
           }
-          return Container(
+          return Expanded(
             child: GridView.builder(
               itemCount: mapCards.length,
               scrollDirection: Axis.vertical,
@@ -72,7 +72,8 @@ class MapCard extends StatelessWidget {
       child: Container(
         width: width / 3,
         height: width / 3,
-        decoration: BoxDecoration(),
+        padding: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
         child: Center(
           child: Text(
             title,
