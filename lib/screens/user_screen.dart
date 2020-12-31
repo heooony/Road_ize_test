@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:road_ize/services/map_stream.dart';
+import 'package:road_ize/utilities/constants.dart';
 import 'package:road_ize/utilities/firebase_information.dart';
 import 'package:road_ize/screens/login_screen.dart';
 
@@ -31,21 +32,37 @@ class _UserScreenState extends State<UserScreen> {
           if (snapshot.hasData == false) {
             return Center(child: CircularProgressIndicator());
           } else {
-            return Container(
-              child: Column(
+            return Scaffold(
+              body: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FlatButton(
-                      onPressed: () {
-                        FirebaseInformation.signOut();
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => LoginScreen()));
-                      },
-                      child: Text(
-                        '로그아웃',
-                        style: TextStyle(fontSize: 30.03),
-                      )),
+                  Row(
+                    children: [
+                      FlatButton(
+                          onPressed: () {
+                            FirebaseInformation.signOut();
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          child: Text(
+                            '로그아웃',
+                            style: TextStyle(fontSize: 30.0),
+                          )),
+                      FlatButton(
+                          onPressed: () {
+                            FirebaseInformation.signOut();
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          child: Text(
+                            '구독',
+                            style: TextStyle(fontSize: 30.0),
+                          ))
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Row(
@@ -73,11 +90,11 @@ class _UserScreenState extends State<UserScreen> {
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              '테마 수 : 0',
+                              '테마 수 : ${FirebaseInformation.themaCount}',
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              '지점 수 : 0',
+                              '지점 수 : ${FirebaseInformation.branchCount}',
                               style: TextStyle(fontSize: 20),
                             ),
                           ],
