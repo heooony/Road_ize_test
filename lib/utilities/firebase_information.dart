@@ -1,10 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:road_ize/services/user_stream.dart';
+import 'snackBar.dart';
 import 'dart:io';
 
 class FirebaseInformation {
+  static Future<void> themaCount =
+      FirebaseInformation.getStoreData('user_information', 'themaCount');
+  static Future<void> branchCount =
+      FirebaseInformation.getStoreData('user_information', 'brunchCount');
   static final firestore = FirebaseFirestore.instance;
   static final firestorage = FirebaseStorage.instance;
   static final auth = FirebaseAuth.instance;
@@ -19,7 +26,7 @@ class FirebaseInformation {
         .set({'name': data, 'intro': data2});
   }
 
-  static Future<String> getStoreData(String collection, String dataName) async {
+  static Future<String> getStoreData(collection, dataName) async {
     String data;
     await firestore
         .collection(collection)
@@ -66,7 +73,7 @@ class FirebaseInformation {
         .set({'title': title, 'intro': intro});
   }
 
-  static void deleteThema(title) async {
+  static void deleteThema(String title) async {
     await FirebaseInformation.firestore
         .collection('user_information')
         .doc(FirebaseInformation.user.uid)
@@ -75,5 +82,33 @@ class FirebaseInformation {
         .collection('branch_information')
         .doc(title)
         .delete();
+  }
+
+  static Future<int> createThema(scaffoldKey, title, intro) async {
+    var doit = await FirebaseInformation.firestore
+        .collection('user_information')
+        .doc(FirebaseInformation.user.uid)
+        .collection('map_information')
+        .doc(title)
+        .get()
+        .then((value) async {
+      if (value.data() == null) {
+        await FirebaseInformation.firestore
+            .collection('user_information')
+            .doc(FirebaseInformation.user.uid)
+            .collection('map_information')
+            .doc(title)
+            .set({'title': title, 'intro': intro});
+        return 0;
+      } else {
+        MySnackBar(scaffoldKey: scaffoldKey, text: '해당 제목이 존재합니다.')
+            .snackBarUp();
+        return 1;
+      }
+    });
+    if (doit == 0)
+      return 0;
+    else
+      return 1;
   }
 }
