@@ -79,15 +79,6 @@ class _MyGoogleMapState extends State<MyGoogleMap>
                 : Icon(Icons.add, size: 30.0)),
         popCard ? MyCard() : Container(),
         Text('${_visibleRegion.northeast}'),
-        GestureDetector(
-          onTap: () async {
-            final LatLngBounds visibleRegion =
-                await mapController.getVisibleRegion();
-            setState(() {
-              _visibleRegion = visibleRegion;
-            });
-          },
-        )
       ],
     );
   }

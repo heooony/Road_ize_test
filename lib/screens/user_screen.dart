@@ -70,7 +70,7 @@ class _UserScreenState extends State<UserScreen> {
                       children: [
                         CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors.black,
+                          backgroundColor: Colors.blue,
                         ),
                         SizedBox(
                           width: 30.0,
@@ -80,7 +80,7 @@ class _UserScreenState extends State<UserScreen> {
                           children: [
                             Text(
                               name,
-                              style: TextStyle(fontSize: 40),
+                              style: TextStyle(fontSize: 30),
                             ),
                             SizedBox(
                               height: 10.0,
@@ -90,11 +90,11 @@ class _UserScreenState extends State<UserScreen> {
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              '테마 수 : ${FirebaseInformation.themaCount}',
+                              '테마 수 : 0',
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              '지점 수 : ${FirebaseInformation.branchCount}',
+                              '지점 수 : 0',
                               style: TextStyle(fontSize: 20),
                             ),
                           ],
